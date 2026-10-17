@@ -1,0 +1,19 @@
+{
+  "name": "海口去哪玩",
+  "short_name": "海口去哪玩",
+  "description": "海口本地活动日报：今天最值得去的 TOP3、今晚去哪、本周末安排，每个推荐都告诉你下一步做什么。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f7f9",
+  "theme_color": "#0d7a6f",
+  "categories": ["travel", "lifestyle", "social"],
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

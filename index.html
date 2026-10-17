@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d7a6f" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1215" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="海口去哪玩">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- SHARE:START — rewritten by scripts/daily-guide.mjs with today's numbers.
+     Chat apps read these without running JavaScript, and they require an
+     absolute og:image URL, so this block is baked at build time. -->
+<title>海口去哪玩｜10月17日</title>
+<meta name="description" content="今晚 6 个活动 · 6 个社交局 · 2 个运动活动">
+<meta property="og:title" content="海口去哪玩｜10月17日">
+<meta property="og:description" content="今晚 6 个活动 · 6 个社交局 · 2 个运动活动">
+<meta property="og:image" content="https://wanghoufan.github.io/haikou-go/og-image.png">
+<meta property="og:url" content="https://wanghoufan.github.io/haikou-go/">
+<!-- SHARE:END -->
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wanghoufan.github.io/haikou-go/">
+<meta property="og:site_name" content="海口去哪玩">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="stylesheet" href="./styles.css">
+
+<script>
+  // Applied before first paint so the shell never flashes the wrong theme.
+  (function () {
+    try {
+      var theme = localStorage.getItem('hk.theme') || 'SYSTEM';
+      var dark = theme === 'DARK' || (theme === 'SYSTEM' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      var lang = localStorage.getItem('hk.lang') || 'FOLLOW_SYSTEM';
+      var resolved = lang === 'FOLLOW_SYSTEM' ? ((navigator.languages && navigator.languages[0]) || navigator.language || 'zh-CN') : lang;
+      document.documentElement.lang = String(resolved).toLowerCase().indexOf('zh') === 0 ? 'zh-CN' : 'en';
+      document.documentElement.dataset.lang = document.documentElement.lang;
+    } catch (e) {
+      document.documentElement.dataset.theme = 'light';
+      document.documentElement.lang = 'zh-CN';
+    }
+  })();
+</script>
+</head>
+<body>
+
+<div class="offline-bar" id="offlineBar" hidden>
+  <span data-i18n="offline">这是最近一次更新的数据</span>
+  <span id="offlineStamp"></span>
+</div>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-row">
+      <div class="brand">
+        <h1>海口去哪玩</h1>
+        <p class="sub" id="todayLine">—</p>
+      </div>
+      <div class="top-actions">
+        <div class="weather" id="weather" hidden></div>
+        <button class="icon-btn" id="shareBtn" type="button" aria-label="分享" title="分享">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M12 3l-4 4M12 3l4 4M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+        </button>
+        <button class="icon-btn" id="settingsBtn" type="button" aria-label="设置" title="设置">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <a href="#today" data-view="today" data-i18n="nav.today">全部</a>
+      <a href="#tonight" data-view="tonight" data-i18n="nav.tonight">今晚</a>
+      <a href="#weekend" data-view="weekend" data-i18n="nav.weekend">本周末</a>
+      <a href="#explore" data-view="explore" data-i18n="nav.explore">分类探索</a>
+      <a href="#community" data-view="community" data-i18n="nav.community">社群</a>
+      <a href="#new" data-view="new" data-i18n="nav.new">拍照打卡</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="shell">
+    <p class="loading" id="loading" data-i18n="loading">正在加载今日日报…</p>
+    <p class="error" id="error" hidden></p>
+
+    <section class="block" id="blockTop3" hidden>
+      <h2 class="block-title">🔥 <span data-i18n="block.top3">今天最值得去 TOP3</span></h2>
+      <div class="top3" id="top3"></div>
+    </section>
+
+    <section class="block" id="blockPins" hidden>
+      <h2 class="block-title">📌 <span data-i18n="pins.block">我的关注</span></h2>
+      <div id="pins"></div>
+    </section>
+
+    <section class="block" id="blockTimeline" hidden>
+      <h2 class="block-title">🕐 <span data-i18n="block.timeline">今天时间线</span></h2>
+      <ol class="timeline" id="timeline"></ol>
+    </section>
+
+    <section class="block filterbar" id="filterbar" hidden>
+      <div class="filter-head">
+        <h2 class="block-title"><span id="viewTitle">—</span></h2>
+        <button class="ghost-btn" id="openFilters" type="button" data-i18n="filter.open">筛选</button>
+      </div>
+      <div class="quickchips" id="quickChips"></div>
+      <div class="active-filters" id="activeFilters" hidden></div>
+    </section>
+
+    <div id="results"></div>
+
+    <section class="block" id="blockCommunities" hidden>
+      <h2 class="block-title">🧑‍🤝‍🧑 <span data-i18n="block.communities">值得长期加入的社群</span></h2>
+      <div class="community-grid" id="communities"></div>
+    </section>
+
+    <p class="empty" id="emptyState" hidden data-i18n="empty">这一档暂时没有已确认的内容，换个筛选看看。</p>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>
+    <span data-i18n="foot.source">每条内容都保留原始来源链接，点开卡片可查看。</span>
+  </p>
+  <p class="foot-note">
+    <span data-i18n="foot.updated">数据更新于</span>
+    <span id="updatedAt">—</span>
+    <span class="dot">·</span>
+    <span data-i18n="foot.offlineok">离线时可继续浏览上一次的内容</span>
+  </p>
+</footer>
+
+<!-- mobile filter sheet -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <strong data-i18n="filter.title">筛选</strong>
+      <button class="icon-btn" id="closeSheet" type="button" aria-label="关闭">✕</button>
+    </div>
+    <div class="sheet-body" id="sheetBody"></div>
+    <div class="sheet-foot">
+      <button class="ghost-btn" id="clearFilters" type="button" data-i18n="filter.clear">清除</button>
+      <button class="primary-btn" id="applyFilters" type="button" data-i18n="filter.apply">查看结果</button>
+    </div>
+  </div>
+</div>
+
+<!-- detail modal -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <button class="icon-btn modal-close" id="closeModal" type="button" aria-label="关闭">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- settings modal -->
+<div class="modal" id="settings" hidden>
+  <div class="modal-panel small" role="dialog" aria-modal="true">
+    <button class="icon-btn modal-close" id="closeSettings" type="button" aria-label="关闭">✕</button>
+    <h3 data-i18n="settings.title">显示设置</h3>
+    <div class="setting-row">
+      <span data-i18n="settings.theme">主题</span>
+      <div class="segmented" id="themeSeg">
+        <button type="button" data-theme-val="SYSTEM" data-i18n="settings.system">跟随系统</button>
+        <button type="button" data-theme-val="LIGHT" data-i18n="settings.light">浅色</button>
+        <button type="button" data-theme-val="DARK" data-i18n="settings.dark">深色</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <span data-i18n="settings.lang">语言</span>
+      <div class="segmented" id="langSeg">
+        <button type="button" data-lang-val="FOLLOW_SYSTEM" data-i18n="settings.follow">跟随系统</button>
+        <button type="button" data-lang-val="zh-CN">中文</button>
+        <button type="button" data-lang-val="en">English</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>
